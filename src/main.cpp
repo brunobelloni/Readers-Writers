@@ -1,4 +1,5 @@
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
@@ -55,11 +56,26 @@ class File {
     }
 };
 
+void foo() {
+  // do stuff...
+}
+
+void bar(int x) {
+  // do stuff...
+}
+
 int main() {
 
-    File *file = new File("Hello World");
+  thread first(foo);     m// spawn new thread that calls foo()
+  thread second(bar, 0);  // spawn new thread that calls bar(0)
+
+  std::cout << "main, foo and bar now execute concurrently...\n";
+
+  // synchronize threads:
+  first.join();                // pauses until first finishes
+  second.join();               // pauses until second finishes
+
+  cout << "foo and bar completed.\n";
     
-    cout << file->getData() << endl;
-    
-    return 0;
+  return 0;
 }
