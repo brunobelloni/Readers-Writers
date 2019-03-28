@@ -2,6 +2,11 @@
 
 using namespace std;
 
+int HOW_MANY_READERS = 4;
+int HOW_MANY_WRITERS = 4;
+double READERS_INTENSITY = 0.2;
+double WRITERS_INTENSITY = 0.5;
+
 enum TYPE {
     WRITER,
     READER,
@@ -22,6 +27,26 @@ class File {
     
     string getData() {
         return this->data;
+    }
+    
+    void setData(string data) {
+        this->data = data;
+    }
+    
+    int getActiveReaders() {
+        return this->activeReaders;
+    }
+    
+    void setActiveReaders(int activeReaders) {
+        this->activeReaders = activeReaders;
+    }
+    
+    int getActiveWriters() {
+        return this->activeWriters;
+    }
+    
+    void setActiveWriters(int activeWriters) {
+        this->activeWriters = activeWriters;
     }
 };
 
