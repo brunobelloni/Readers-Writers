@@ -6,6 +6,7 @@ int HOW_MANY_READERS = 4;
 int HOW_MANY_WRITERS = 4;
 double READERS_INTENSITY = 0.2;
 double WRITERS_INTENSITY = 0.5;
+int MAX_PROCESSING_TIME = 10; // seconds
 
 enum TYPE {
     WRITER,
@@ -25,6 +26,10 @@ class File {
         this->activeWriters = 0;
     }
     
+    bool canRead() {
+        return this->activeWriters <= 0 ? true : false;
+    }
+        
     string getData() {
         return this->data;
     }
