@@ -122,7 +122,7 @@ void instanceProcess(int id, TYPE type) {
         this_thread::sleep_for(chrono::seconds(PROCESS_DELAY * rand() % 5 + 1));
 
         if(file->getSemaphore() and process->getType() == READER) {
-            cout << "Process " << id << " was blocked. He was trying to write" << endl;
+            cout << "Process " << id << " was blocked. He was trying to read" << endl;
             i-=1;
             continue;
         }
@@ -132,9 +132,10 @@ void instanceProcess(int id, TYPE type) {
             file->setActiveReaders(file->getActiveReaders()+1);
         }
 
-        if(process->getType() == WRITER) {
+        if(!process->getIsReading() and process->getType() == WRITER) {
             file->setActiveWriters(file->getActiveWriters()+1);
             file->setSemaphore(true);
+            process->setIsReading(true);
         }
 
         process->setTimeToLive(process->getTimeToLive()-1);
@@ -150,6 +151,7 @@ void instanceProcess(int id, TYPE type) {
     } else if(process->getType() == WRITER and process->getTimeToLive() <= 0) {
         file->setActiveWriters(file->getActiveWriters()-1);
         file->setSemaphore(false);
+        process->setIsReading(false);
     }
 }
 
